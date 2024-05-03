@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="https://cdn.jsdelivr.net/npm/ionicons@latest/dist/ionicons/ionicons.js"></script>
+    <title>Menú Vertical</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #047C5D;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            
+        }
+        
+        header {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border: 0;
+            height: 20px;
+            background-color: #000;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 1);
+            z-index: 99999;
+        }
+
+        ion-icon {
+            color: #FDE93D;
+        }
+
+        .container {
+            width: 90px;
+            height: 130px;
+            margin: 5px;
+            background-color: #047C5D;
+            padding: 5px;
+            border-radius: 10px;
+            font-size: 14px;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 1);
+            
+        }
+        
+        .container:active {
+            background-color: #ffffff40;
+      
+        }
+        
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        p {
+            text-align: center;
+            margin: 10px 0;
+            color: #fff;
+        }
+        
+        h1 {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 15px;
+            margin-top: 99px;
+            color: #fff;
+        }
+        
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            padding: 5px;
+            gap: 10px;
+            margin-top: 210px;
+        
+        }
+
+        .section {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #047C5D;
+            z-index: 100000;
+            
+        }
+
+        .section h2 {
+            margin-top: 8px;
+            margin-left: 40px;
+            font-size: 18px;
+            
+        }
+
+        .section-header {
+            position: fixed;
+            width: 100%;
+            height: 40px;
+            top: 0;
+            left: 0;
+            border: 0;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 1);
+            background-color: #000;
+            color: white;
+        }
+
+        .section-header ion-icon {
+            position: absolute;
+            margin-top: -43px;
+            margin-left: 5px;
+            padding: 6px;
+            font-size: 22px;
+            color:#fff ;
+            
+        }
+        
+        .section-header ion-icon:active{
+             opacity: 0.7;
+    
+        }
+        
+        #contenedor {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 100vh;
+            transform: translate(-50%, -50%);
+            background-color: #047C5D;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+        
+        .submenu {
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+        
+        }
+        
+        .submenu:active{
+             opacity: 0.7;
+    
+        }
+        
+        .submenu img {
+            width: 27px;
+            height: 27px;
+            border-radius: 5%;
+            margin-right: 10px;
+            border: 1px solid #fff;
+        
+        }
+
+        .submenu .submenu-label {
+            background-color: #FDE93D;
+            padding: 3px 5px;
+            height: 23px;
+            align-items: center;
+            border-radius: 3px;
+            color: #000;
+        
+        }
+        
+    </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    let currentSection = null;
+    let previousSection = null;
+
+    const containers = document.querySelectorAll('.container');
+    const submenus = document.querySelectorAll('.submenu');
+    const backButtons = document.querySelectorAll('.section-header ion-icon');
+    const menu = document.querySelector('.menu');
+    
+    const contenedor = document.getElementById('contenedor');
+    setTimeout(() => {
+        contenedor.style.display = 'none';
+    }, 4000);
+
+    function hideAllSections() {
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+            section.style.display = 'none';
+        });
+    }
+
+    function showSection(section) {
+        hideAllSections();
+        section.style.display = 'block';
+        currentSection = section;
+    }
+
+    containers.forEach((container, index) => {
+        container.addEventListener('click', () => {
+            previousSection = currentSection;
+
+            menu.style.display = 'none';
+            
+            const newSection = document.getElementById(`section${index + 1}`);
+            showSection(newSection);
+        });
+    });
+
+    submenus.forEach((submenu) => {
+        submenu.addEventListener('click', () => {
+            previousSection = currentSection;
+
+            const targetSectionId = submenu.getAttribute('data-target');
+            const newSection = document.getElementById(targetSectionId);
+            showSection(newSection);
+        });
+    });
+
+    backButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            hideAllSections();
+
+            if (previousSection) {
+                showSection(previousSection);
+                previousSection = null;
+            } else {
+                menu.style.display = 'grid';
+                currentSection = null;
+            }
+          });
+       });
+    });
+    </script>
+</head>
+<body>
+
+<div id="contenedor">
+        <h1>NUEVA HERRAMIENTA PARA ELECTRICISTAS.</h1>
+        <h1>CALCULO DE FORMULAS Y SIMBOLOGIAS ELECTRICAS.</h1>
+        <h1>AUTOR:<br>ELISEO SALAS CRUZ<br></h1>
+        <h1>MADE IN PERU</h1>
+    </div>
+
+    <header style="display: flex; align-items: center; justify-content: flex-start; padding: 10px; border-bottom: 0.1px solid #fff;">
+        <h1 style="margin: 0; font-size: 18px; color: #fff; margin-left: 100px;">ELECTRO TE
+            <ion-icon name="flash"></ion-icon>
+            T
+        </h1>
+    </div>
+    </header>
+    <div class="menu">
+        <div class="container" data-index="1">
+            <img src="https://via.placeholder.com/150" alt="Imagen 1">
+            <p><strong>Descripción 1</strong></p>
+        </div>
+
+        <div class="container" data-index="2">
+            <img src="https://via.placeholder.com/150" alt="Imagen 2">
+            <p><strong>Descripción 2</strong></p>
+        </div>
+
+        <div class="container" data-index="3">
+            <img src="https://via.placeholder.com/150" alt="Imagen 3">
+            <p><strong>Descripción 3</strong></p>
+        </div>
+
+        <div class="container" data-index="4">
+            <img src="https://via.placeholder.com/150" alt="Imagen 4">
+            <p><strong>Descripción 4</strong></p>
+        </div>
+
+        <div class="container" data-index="5">
+            <img src="https://via.placeholder.com/150" alt="Imagen 5">
+            <p><strong>Descripción 5</strong></p>
+        </div>
+        
+        <div class="container" data-index="6">
+            <img src="https://via.placeholder.com/150" alt="Imagen 6">
+            <p><strong>Descripción 6</strong></p>
+        </div>
+        
+        <div class="container" data-index="7">
+            <img src="https://via.placeholder.com/150" alt="Imagen 7">
+            <p><strong>Descripción 7</strong></p>
+        </div>
+        
+        <div class="container" data-index="8">
+            <img src="https://via.placeholder.com/150" alt="Imagen 8">
+            <p><strong>Descripción 8</strong></p>
+        </div>
+        
+        <div class="container" data-index="9">
+            <img src="https://via.placeholder.com/150" alt="Imagen 9">
+            <p><strong>Descripción 9</strong></p>
+        </div>
+        
+        <div class="container" data-index="10">
+            <img src="https://via.placeholder.com/150" alt="Imagen 10">
+            <p><strong>Descripción 10</strong></p>
+        </div>
+        
+        <div class="container" data-index="11">
+            <img src="https://via.placeholder.com/150" alt="Imagen 11">
+            <p><strong>Descripción 11</strong></p>
+        </div>
+        
+        <div class="container" data-index="12">
+            <img src="https://via.placeholder.com/150" alt="Imagen 12">
+            <p><strong>Descripción 12</strong></p>
+        </div>
+        
+        <div class="container" data-index="13">
+            <img src="https://via.placeholder.com/150" alt="Imagen 13">
+            <p><strong>Descripción 13</strong></p>
+        </div>
+        
+        <div class="container" data-index="14">
+            <img src="https://via.placeholder.com/150" alt="Imagen 14">
+            <p><strong>Descripción 14</strong></p>
+        </div>
+        
+        <div class="container" data-index="15">
+            <img src="https://via.placeholder.com/150" alt="Imagen 15">
+            <p><strong>Descripción 15</strong></p>
+        </div>
+    </div>
+
+    <div id="section1" class="section">
+        <div class="section-header">
+            <h2>Sección 1</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+         </div>
+         <br>
+         <br>
+         <br>
+            <div class="submenu" data-target="section16">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 1</span>
+       </div>
+        </div>
+
+    <div id="section2" class="section">
+        <div class="section-header">
+            <h2>Sección 2</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submenu" data-target="section17">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 2</span>
+       </div>
+    </div>
+
+    <div id="section3" class="section">
+        <div class="section-header">
+            <h2>Sección 3</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submenu" data-target="section18">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 3</span>
+       </div>
+    </div>
+
+    <div id="section4" class="section">
+        <div class="section-header">
+            <h2>Sección 4</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submenu" data-target="section19">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 4</span>
+       </div>
+    </div>
+
+    <div id="section5" class="section">
+        <div class="section-header">
+            <h2>Sección 5</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submenu" data-target="section20">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 5</span>
+       </div>
+    </div>
+    
+    <div id="section6" class="section">
+        <div class="section-header">
+            <h2>Sección 6</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submenu" data-target="section21">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 6</span>
+       </div>
+    </div>
+    
+    <div id="section7" class="section">
+        <div class="section-header">
+            <h2>Sección 7</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submenu" data-target="section22">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 7</span>
+       </div>
+    </div>
+    
+    <div id="section8" class="section">
+        <div class="section-header">
+            <h2>Sección 8</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submenu" data-target="section23">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 8</span>
+       </div>
+    </div>
+    
+    <div id="section9" class="section">
+        <div class="section-header">
+            <h2>Sección 9</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submenu" data-target="section24">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 9</span>
+       </div>
+    </div>
+    
+    <div id="section10" class="section">
+        <div class="section-header">
+            <h2>Sección 10</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submenu" data-target="section25">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 10</span>
+       </div>
+    </div>
+    
+    <div id="section11" class="section">
+        <div class="section-header">
+            <h2>Sección 11</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submenu" data-target="section26">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 11</span>
+       </div>
+    </div>
+    
+    <div id="section12" class="section">
+        <div class="section-header">
+            <h2>Sección 12</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submenu" data-target="section27">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 12</span>
+       </div>
+    </div>
+    
+    <div id="section13" class="section">
+        <div class="section-header">
+            <h2>Sección 13</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submenu" data-target="section28">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 13</span>
+       </div>
+    </div>
+    
+    <div id="section14" class="section">
+        <div class="section-header">
+            <h2>Sección 14</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submenu" data-target="section29">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 14</span>
+       </div>
+    </div>
+    
+    <div id="section15" class="section">
+        <div class="section-header">
+            <h2>Sección 15</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submenu" data-target="section30">
+        <img src="https://via.placeholder.com/27" alt="Icono">
+        <span class="submenu-label">Submenú 15</span>
+       </div>
+    </div>
+    
+    <div id="section16" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 1</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 1.</p>
+    </div>
+    
+    <div id="section17" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 2</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 2.</p>
+    </div>
+    
+    <div id="section18" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 3</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 3.</p>
+    </div>
+    
+    <div id="section19" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 4</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 4.</p>
+    </div>
+    
+    <div id="section20" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 5</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 6.</p>
+    </div>
+    
+    <div id="section21" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 6</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 6.</p>
+    </div>
+    
+    <div id="section22" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 7</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 7.</p>
+    </div>
+    
+    <div id="section23" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 8</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 8.</p>
+    </div>
+    
+    <div id="section24" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 9</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 9.</p>
+    </div>
+    
+    <div id="section25" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 10</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 10.</p>
+    </div>
+    
+    <div id="section26" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 11</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 11.</p>
+    </div>
+    
+    <div id="section27" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 12</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 12.</p>
+    </div>
+    
+    <div id="section28" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 13</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 13.</p>
+    </div>
+    
+    <div id="section29" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 14</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 14.</p>
+    </div>
+    
+    <div id="section30" class="section">
+        <div class="section-header">
+            <h2>Sub Menu 15</h2>
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p>Contenido adicional para la sección 15.</p>
+    </div>
+</body>
+</html>
